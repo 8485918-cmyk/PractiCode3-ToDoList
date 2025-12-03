@@ -1,42 +1,97 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5;
+  direction: rtl;
+}
+
+* {
+  font-family: cursive;
+}
+
+.todoapp {
+  width: 500px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
   text-align: center;
+  color: #4b4b4b;
+  margin-bottom: 20px;
+  font-size: 36px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.new-todo {
+  width: 97%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 3px solid #00d0b4;
+  margin-bottom: 12px;
+  font-size: 16px;
+  padding-left: 0px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header button {
+  width: 100%;
+  background: #00d0b4;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 0 70px 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.header button:hover {
+  background: #53e2cf;
 }
 
-.card {
-  padding: 2em;
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.read-the-docs {
-  color: #888;
+.todo-list li {
+  background: #fafafa;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-right: 5px solid #00d0b4;
+}
+
+.todo-list li.completed {
+  opacity: 0.6;
+  text-decoration: line-through;
+  border-right-color: #f89807;
+}
+
+.destroy {
+  background: #e53935;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 360px;
+  margin-left: 0;
+}
+
+.destroy:hover {
+  background: #c62828;
+}
+
+.toggle {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: 12px;
 }

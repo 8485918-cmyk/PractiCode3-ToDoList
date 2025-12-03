@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import service from './service.js';
+import "./App.css";
+
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
@@ -12,19 +14,24 @@ function App() {
 
   async function createTodo(e) {
     e.preventDefault();
-    await service.addTask(newTodo);
-    setNewTodo("");//clear input
-    await getTodos();//refresh tasks list (in order to see the new one)
+    if (!newTodo.trim()) return;
+    const created = await service.addTask(newTodo);
+    setTodos(prev => [...prev, created]);
+    setNewTodo("");
   }
 
   async function updateCompleted(todo, isComplete) {
-    await service.setCompleted(todo.id, isComplete);
-    await getTodos();//refresh tasks list (in order to see the updated one)
+    await service.setCompleted(todo.id, isComplete, todo.name);
+    setTodos(prevTodos =>
+      prevTodos.map(t =>
+        t.id == todo.id ? { ...t, isComplete } : t
+      )
+    );
   }
 
   async function deleteTodo(id) {
     await service.deleteTask(id);
-    await getTodos();//refresh tasks list
+    setTodos(prevTodos => prevTodos.filter(t => t.id !== id));
   }
 
   useEffect(() => {
@@ -36,22 +43,39 @@ function App() {
       <header className="header">
         <h1>todos</h1>
         <form onSubmit={createTodo}>
-          <input className="new-todo" placeholder="Well, let's take on the day" value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
+          <input
+            className="new-todo"
+            placeholder="Well, let's take on the day"
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+          />
+          <button type="submit">add task</button>
         </form>
       </header>
+
       <section className="main" style={{ display: "block" }}>
         <ul className="todo-list">
-          {todos.map(todo => {
-            return (
-              <li className={todo.isComplete ? "completed" : ""} key={todo.id}>
-                <div className="view">
-                  <input className="toggle" type="checkbox" defaultChecked={todo.isComplete} onChange={(e) => updateCompleted(todo, e.target.checked)} />
-                  <label>{todo.name}</label>
-                  <button className="destroy" onClick={() => deleteTodo(todo.id)}></button>
-                </div>
-              </li>
-            );
-          })}
+          {todos.map(todo => (
+            <li
+              key={todo.id}
+              className={todo.isComplete ? "completed" : ""}
+            >
+              <div className="view">
+                <input
+                  className="toggle"
+                  type="checkbox"
+                  checked={todo.isComplete}
+                  onChange={(e) => updateCompleted(todo, e.target.checked)}
+                />
+                <label>{todo.name}</label>
+                <button
+                  className="destroy"
+                  onClick={() => deleteTodo(todo.id)}>
+                  delete task
+                </button>
+              </div>
+            </li>
+          ))}
         </ul>
       </section>
     </section>
